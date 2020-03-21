@@ -1,0 +1,11 @@
+.task {
+    list-style-type: none;
+}
+.task > li {
+    display: flex;
+}
+ul {
+    padding-inline-start: 0px;
+    margin: 0px 10px;
+    
+}
