@@ -4,13 +4,15 @@ import './CSS/Task.css';
 // import ReactDOM from 'react-dom';
 
 import TaskItem from './TaskItem';
-// import TaskItemModal from './TaskItemModal';
+import TaskItemModal from './TaskItemModal';
 
 
 class Task extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentTask: {},
+      showModal: "hide",
       taskList: [
         {
           id: "1", 
@@ -60,6 +62,9 @@ class Task extends React.Component {
     alert("You are editing " + id);
   }
   handleAddTask() {
+    
+    this.setState({showModal: "show"});
+
     this.addTask();
   }
 
@@ -80,12 +85,6 @@ class Task extends React.Component {
       taskText: "I need to accomplish certain task " + count,
       status: "Pending"
     });
-
-    this.setState({taskList: newTaskList})
-
-    // const rnode = document.getElementsByTagName('body')[0];
-    // console.log(rnode);
-    // ReactDOM.render(<TaskItemModal />, rnode)
   }
 
   getTaskList() {
@@ -114,6 +113,9 @@ class Task extends React.Component {
     
     return(
       <div className="task">
+        <TaskItemModal showModal={this.state.showModal} handleSave={() => ""}>
+          {/* <TaskItem task={this.state.currentTask}/> */}
+        </TaskItemModal>
         <input type="text" placeholder="Search" onChange={this.filterTasks}></input>
 
         <button onClick={this.handleAddTask}>New task</button>

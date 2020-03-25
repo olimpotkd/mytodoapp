@@ -1,11 +1,19 @@
 import React from 'react';
+
 import './CSS/TaskItemModal.css';
 
 const TaskItemModal = (props) => {
+  console.log(props.showModal)
+  let showHideClassName = props.showModal === "show" ? "modal show-modal" : "modal hide-modal";
+  // let taskText = props.taskText ? props.taskText : "";
+
   return (
-    <div className="modal-wrapper">
+    <div className={showHideClassName}>
       <div className="centered modal-content">
-        <button onClick={props.destroy}></button>
+        <label>Task</label>
+        <input type="text" ></input>
+        {/* <button onClick={props.handleSave(task)}></button> */}
+        {/* <button onClick={props.handleClose}></button> */}
       </div>
     </div>
   )
