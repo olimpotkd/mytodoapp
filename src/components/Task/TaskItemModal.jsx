@@ -5,11 +5,21 @@ class TaskItemModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      task: props.task
+      task: {}
     }
   }
-  
-  render() {
+
+  componentDidMount() {
+    this.setState({
+      task: {}
+    })
+  }
+  componentDidUpdate(prev) {
+    // this.setState({
+      
+    // })
+  }
+  render() {    
     let showHideClassName = this.props.showModal === "show" ? "modal show-modal" : "modal hide-modal";
     // let taskText = props.taskText ? props.taskText : "";
     let {task} = this.state;
@@ -28,8 +38,8 @@ class TaskItemModal extends React.Component {
             <input className="txt-box task-text" type="text" value={task.taskText || ""}></input>
 
             <span className="btn-row">
-              <button onClick={this.props.handleSave(task)}>Save</button>
-              <button onClick={this.props.handleCancel}>Cancel</button>
+              {/* <button onClick={this.props.handleSave(task)}>Save</button>
+              <button onClick={this.props.handleCancel}>Cancel</button> */}
             </span>
           </div>
       </div>

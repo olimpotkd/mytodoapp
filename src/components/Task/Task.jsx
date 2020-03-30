@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import './CSS/Task.css';
 
 // import ReactDOM from 'react-dom';
@@ -54,8 +54,7 @@ class Task extends React.Component {
   
   componentDidUpdate(prevState) {
     console.log("Cambió")
-    ReactDOM.render(<TaskItemModal/>, document.getElementsByClassName('modal')[0])
-
+    // ReactDOM.render(<TaskItemModal task={this.state.taskList[0]} />, document.getElementsByClassName('modal')[0]);
   }
 
   handleFinishTask(id) {
