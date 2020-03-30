@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './CSS/Task.css';
 
 // import ReactDOM from 'react-dom';
@@ -10,22 +11,25 @@ import TaskItemModal from './TaskItemModal';
 class Task extends React.Component {
   constructor(props) {
     super(props);
+    this.currentTask = {};
     this.state = {
-      currentTask: {},
       showModal: "hide",
       taskList: [
         {
           id: "1", 
+          title: "My task 1",
           taskText: "I need to accomplish certain task 1",
           status: "Pending"
         },
         {
           id: "2", 
+          title: "My task 2",
           taskText: "I need to accomplish certain task 2",
           status: "Pending"
         },
         {
           id: "3", 
+          title: "My task 3",
           taskText: "I need to accomplish certain task 3",
           status: "Done"
         }
@@ -36,6 +40,8 @@ class Task extends React.Component {
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.filterTasks = this.filterTasks.bind(this);
+    this.handleCancelModal = this.handleCancelModal.bind(this);
+    this.handleSaveTask = this.handleSaveTask.bind(this);
   }
   
   componentDidMount() {
@@ -47,7 +53,9 @@ class Task extends React.Component {
   }
   
   componentDidUpdate(prevState) {
-    
+    console.log("Cambió")
+    ReactDOM.render(<TaskItemModal/>, document.getElementsByClassName('modal')[0])
+
   }
 
   handleFinishTask(id) {
@@ -59,22 +67,26 @@ class Task extends React.Component {
     }
   }
   handleEditTask(id) {
-    alert("You are editing " + id);
+    this.currentTask = this.state.taskList.filter(task => task.id === id)[0];
+    this.setState({
+      showModal: "show"
+    });
   }
   handleAddTask() {
-    
-    this.setState({showModal: "show"});
-
-    this.addTask();
+    this.currentTask = {}
+    this.setState({
+      showModal: "show"
+    });
+    //this.addTask();
   }
 
   finishTask(id) {
     //do something
   }
   deleteTask(id) {
-      this.setState({taskList: this.state.taskList.filter(x => x.id !== id)})
+      this.setState({taskList: this.state.taskList.filter(task => task.id !== id)})
   }
-  addTask() {
+  createTask(task) {
     let count = this.state.taskList.length;
     count++;
     
@@ -86,41 +98,70 @@ class Task extends React.Component {
       status: "Pending"
     });
   }
+  
+  isValidTask(task) {
+    return task.taskTitle && task.taskText;
+  }
+
+  handleSaveTask(task) {
+    if (this.isValidTask(task)) {
+      task.id ? this.editTask(task) : this.createTask(task);
+    }
+  }
+  handleCancelModal() {   
+    console.log("Cancel");
+    this.setState({
+      showModal: "hide",
+    });
+    this.currentTask = Object.create({});
+  }
+  editTask(task) {
+    let modTaskList = this.state.taskList;
+    let index = modTaskList.indexOf(t => t.id === task.id);
+    modTaskList[index] = task;
+
+    this.setState({ taskList: modTaskList });
+  }
 
   getTaskList() {
     //definir
     return [
       {
         id: "1", 
-        taskText: "I need to accomplish certain task 1"
+        title: "My task 1",
+        taskText: "I need to accomplish certain task 1",
+        status: "Pending"
       },
       {
         id: "2", 
-        taskText: "I need to accomplish certain task 2"
+        title: "My task 2",
+        taskText: "I need to accomplish certain task 2",
+        status: "Pending"
       },
       {
         id: "3", 
-        taskText: "I need to accomplish certain task 3"
+        title: "My task 3",
+        taskText: "I need to accomplish certain task 3",
+        status: "Done"
       }
     ]
   }
 
   filterTasks(e) {
-    console.log(e.target.value)
+    //
   }
 
   render() {
     
     return(
       <div className="task">
-        <TaskItemModal showModal={this.state.showModal} handleSave={() => ""}>
+        <TaskItemModal task={this.currentTask} showModal={this.state.showModal} handleSave={this.handleSaveTask} handleCancel={this.handleCancelModal}>
           {/* <TaskItem task={this.state.currentTask}/> */}
         </TaskItemModal>
-        <input type="text" placeholder="Search" onChange={this.filterTasks}></input>
+        <input type="text" className="txt-box" placeholder="Search" onChange={this.filterTasks}></input>
 
         <button onClick={this.handleAddTask}>New task</button>
         <ul>
-          {console.log(this.state.taskList)}
           {this.state.taskList.map((task) => <TaskItem 
                                               finishTask={() => this.handleFinishTask(task.id)} 
                                               editTask={() => this.handleEditTask(task.id)} 

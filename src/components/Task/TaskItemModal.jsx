@@ -1,22 +1,40 @@
 import React from 'react';
-
 import './CSS/TaskItemModal.css';
 
-const TaskItemModal = (props) => {
-  console.log(props.showModal)
-  let showHideClassName = props.showModal === "show" ? "modal show-modal" : "modal hide-modal";
-  // let taskText = props.taskText ? props.taskText : "";
+class TaskItemModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      task: props.task
+    }
+  }
+  
+  render() {
+    let showHideClassName = this.props.showModal === "show" ? "modal show-modal" : "modal hide-modal";
+    // let taskText = props.taskText ? props.taskText : "";
+    let {task} = this.state;
 
-  return (
-    <div className={showHideClassName}>
-      <div className="centered modal-content">
-        <label>Task</label>
-        <input type="text" ></input>
-        {/* <button onClick={props.handleSave(task)}></button> */}
-        {/* <button onClick={props.handleClose}></button> */}
+    return (
+      <div className={showHideClassName}>
+        <div className="wrapper" onClick={this.props.handleCancel}>
+        </div>
+        <div className="centered modal-content">
+            <h2>{this.props.mode}</h2>
+          
+            <label>Task title</label>
+            <input className="txt-box task-title" type="text" onChange={(e => {task.title = e.target.value})} value={task.taskTitle || ""}></input>
+            
+            <label>Task Text</label>
+            <input className="txt-box task-text" type="text" value={task.taskText || ""}></input>
+
+            <span className="btn-row">
+              <button onClick={this.props.handleSave(task)}>Save</button>
+              <button onClick={this.props.handleCancel}>Cancel</button>
+            </span>
+          </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default TaskItemModal;
