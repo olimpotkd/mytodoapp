@@ -1,6 +1,6 @@
 import React from 'react';
 import './MyToDoApp.css';
-import Task from './components/Task/Task.jsx';
+import ToDo from './components/ToDo/ToDo.jsx';
 
 function MyToDoApp() {
   return (
@@ -9,7 +9,7 @@ function MyToDoApp() {
 
       <h2>Tasks</h2>
       <div className="tasks-container">
-        <Task></Task>
+        <ToDo></ToDo>
       </div>
     </div>
   );

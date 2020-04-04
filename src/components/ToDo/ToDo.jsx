@@ -1,17 +1,16 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
-import './CSS/Task.css';
+import './CSS/ToDo.css';
 
 // import ReactDOM from 'react-dom';
 
-import TaskItem from './TaskItem';
-import TaskItemModal from './TaskItemModal';
+import Task from './Task';
+
+import NewTaskModal from './NewTaskModal';
 
 
-class Task extends React.Component {
+class ToDo extends React.Component {
   constructor(props) {
     super(props);
-    this.currentTask = {};
     this.state = {
       showModal: "hide",
       taskList: [
@@ -33,7 +32,8 @@ class Task extends React.Component {
           taskText: "I need to accomplish certain task 3",
           status: "Done"
         }
-      ]
+      ],
+      currentTask: {}
     }
     this.handleFinishTask = this.handleFinishTask.bind(this);
     this.handleEditTask = this.handleEditTask.bind(this);
@@ -53,8 +53,9 @@ class Task extends React.Component {
   }
   
   componentDidUpdate(prevState) {
-    console.log("Cambió")
-    // ReactDOM.render(<TaskItemModal task={this.state.taskList[0]} />, document.getElementsByClassName('modal')[0]);
+    if (this.state.currentTask !== prevState.currentTask) {
+      console.log("Es diferente");
+    }
   }
 
   handleFinishTask(id) {
@@ -66,15 +67,19 @@ class Task extends React.Component {
     }
   }
   handleEditTask(id) {
-    this.currentTask = this.state.taskList.filter(task => task.id === id)[0];
+    var bla = this.state.taskList.filter(task => task.id === id)[0];
+    
     this.setState({
-      showModal: "show"
+      showModal: "show",
+      currentTask: {}
     });
+    
   }
   handleAddTask() {
-    this.currentTask = {}
+    
     this.setState({
-      showModal: "show"
+      showModal: "show",
+      currentTask : {}
     });
     //this.addTask();
   }
@@ -111,8 +116,9 @@ class Task extends React.Component {
     console.log("Cancel");
     this.setState({
       showModal: "hide",
+      currentTask: {}
     });
-    this.currentTask = Object.create({});
+    
   }
   editTask(task) {
     let modTaskList = this.state.taskList;
@@ -154,14 +160,14 @@ class Task extends React.Component {
     
     return(
       <div className="task">
-        <TaskItemModal task={this.currentTask} showModal={this.state.showModal} handleSave={this.handleSaveTask} handleCancel={this.handleCancelModal}>
+        <NewTaskModal task={this.state.currentTask} showModal={this.state.showModal} handleSave={this.handleSaveTask} handleCancel={this.handleCancelModal}>
           {/* <TaskItem task={this.state.currentTask}/> */}
-        </TaskItemModal>
+        </NewTaskModal>
         <input type="text" className="txt-box" placeholder="Search" onChange={this.filterTasks}></input>
 
         <button onClick={this.handleAddTask}>New task</button>
         <ul>
-          {this.state.taskList.map((task) => <TaskItem 
+          {this.state.taskList.map((task) => <Task 
                                               finishTask={() => this.handleFinishTask(task.id)} 
                                               editTask={() => this.handleEditTask(task.id)} 
                                               deleteTask={() => this.handleDeleteTask(task.id)} 
@@ -174,4 +180,4 @@ class Task extends React.Component {
 
 }
 
-export default Task;
+export default ToDo;

@@ -1,7 +1,7 @@
 import React from 'react';
-import './CSS/TaskItem.css'
+import './CSS/Task.css'
 
-const TaskItem = (props) => {
+const Task = (props) => {
   const { task, finishTask, deleteTask, editTask } = props;
 
   return(
@@ -27,4 +27,4 @@ const TaskItem = (props) => {
   );
 }
 
-export default TaskItem;
+export default Task;
