@@ -43,3 +43,11 @@
   .btn-row {
       align-content: space-around;
   }
+
+  .error.show-error {
+    color: red;
+    display: 
+  }
+  .error.hide-error {
+    display: none;
+  }

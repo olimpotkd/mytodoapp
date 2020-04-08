@@ -6,9 +6,9 @@ const Task = (props) => {
 
   return(
     <li className="task-item">
-      <span>{task.taskText}</span>
+      <span>{task.description}</span>
       <span className="bottom-bar">
-        {task.status}
+        Status: {task.status}
         <ul className="button-wrapper">  
           <li >
             <i onClick={finishTask} className="fas fa-check-circle task-item-buttons color-green"></i>
