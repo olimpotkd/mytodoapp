@@ -26,6 +26,8 @@ class ToDo extends React.Component {
     this.handleSaveTask = this.handleSaveTask.bind(this);
     this.isValidTask = this.isValidTask.bind(this);
     this.getTaskList = this.getTaskList.bind(this);
+    this.completeTask = this.completeTask.bind(this);
+
     this.resetModalData = React.createRef();
   }
   
@@ -35,10 +37,22 @@ class ToDo extends React.Component {
     })
   }
   
-  handleFinishTask(id) {
-    if (window.confirm("Finish task?")) {
-      this.deleteTask(id);
+  handleFinishTask(id) { 
+    if (window.confirm("Mark task as completed?")) {
+      this.completeTask(id);
     }
+  }
+  completeTask(id) {
+
+    let modTask =  this.state.taskList.filter(t => t.id === id)[0];
+    let modTaskList = this.state.taskList.filter(t => t.id !== id);
+    console.log(modTask);
+    modTask.status = "Done";
+    modTaskList.push(modTask);
+
+    this.setState({
+      taskList: modTaskList
+    })
   }
   handleDeleteTask(id) {
     if (window.confirm("Are you sure you want to delete this task?")) {
@@ -165,8 +179,8 @@ class ToDo extends React.Component {
         
         <ul className="task-list">
           {fileteredTasks.map((task) => <Task 
-                                              finishTask={() => this.handleFinishTask(task.id)} 
-                                              editTask={() => this.handleEditTask(task.id)} 
+                                              finishTask={task.status === 'Pending' ? () => this.handleFinishTask(task.id) : () => {}} 
+                                              editTask={task.status === 'Pending' ? () => this.handleEditTask(task.id) : () => {}} 
                                               deleteTask={() => this.handleDeleteTask(task.id)} 
                                               task={task} key={task.id}  />
                                   )}
