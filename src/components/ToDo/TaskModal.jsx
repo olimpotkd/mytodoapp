@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './CSS/NewTaskModal.css';
+import './CSS/TaskModal.css';
 
 class NewTaskModal extends React.Component{
   constructor(props) {

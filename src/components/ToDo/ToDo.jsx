@@ -5,7 +5,7 @@ import './CSS/ToDo.css';
 
 import Task from './Task';
 
-import NewTaskModal from './NewTaskModal';
+import TaskModal from './TaskModal';
 
 
 class ToDo extends React.Component {
@@ -169,8 +169,8 @@ class ToDo extends React.Component {
 
     return(
       <div className="todo">
-        <NewTaskModal ref={this.resetModalData} task={currentTask} showModal={this.state.showModal} handleSave={this.handleSaveTask} handleCancel={this.handleCancelModal}>
-         </NewTaskModal>
+        <TaskModal ref={this.resetModalData} task={currentTask} showModal={this.state.showModal} handleSave={this.handleSaveTask} handleCancel={this.handleCancelModal}>
+         </TaskModal>
         <span className='todo-top'>
           <input type="text" className="txt-box" placeholder="Filter" value={this.searchField} onChange={this.filterTasks}></input>
 
