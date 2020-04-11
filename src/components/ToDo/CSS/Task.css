@@ -8,7 +8,7 @@
     padding-bottom: 5px;
 }
 
-.task-item span:first-child {
+.task-item span.description {
     background-color:white;
     border-radius: 5px;
     margin-bottom: 5px;

@@ -6,7 +6,8 @@ const Task = (props) => {
 
   return(
     <li className="task-item">
-      <span>{task.description}</span>
+      <span className="title">{task.title}</span>
+      <span className="description">{task.description}</span>
       <span className="bottom-bar">
         Status: {task.status}
         <ul className="button-wrapper">  

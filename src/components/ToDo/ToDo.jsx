@@ -13,26 +13,7 @@ class ToDo extends React.Component {
     super(props);
     this.state = {
       showModal: "hide",
-       taskList : [
-          {
-            id: "1", 
-            title: "My task 1",
-            description: "I need to accomplish certain task 1",
-            status: "Pending"
-          },
-          {
-            id: "2", 
-            title: "My task 2",
-            description: "I need to accomplish certain task 2",
-            status: "Pending"
-          },
-          {
-            id: "3", 
-            title: "My task 3",
-            description: "I need to accomplish certain task 3",
-            status: "Done"
-          }
-        ],
+      taskList : [],
       currentTask: {},
       searchField: ''
     }
@@ -44,19 +25,23 @@ class ToDo extends React.Component {
     this.handleCancelModal = this.handleCancelModal.bind(this);
     this.handleSaveTask = this.handleSaveTask.bind(this);
     this.isValidTask = this.isValidTask.bind(this);
-
+    this.getTaskList = this.getTaskList.bind(this);
     this.resetModalData = React.createRef();
   }
   
   componentDidMount() {
-
+    this.setState({
+      taskList: this.getTaskList()
+    })
   }
   
   handleFinishTask(id) {
-    alert("You have finished " + id);
+    if (window.confirm("Finish task?")) {
+      this.deleteTask(id);
+    }
   }
   handleDeleteTask(id) {
-    if (window.confirm("¿Seguro desea eliminar esta tarea?")) {
+    if (window.confirm("Are you sure you want to delete this task?")) {
       this.deleteTask(id);
     }
   }
@@ -69,7 +54,6 @@ class ToDo extends React.Component {
         this.resetModalData.current.resetTaskData(this.state.currentTask)
       }
     );
-    
   }
   handleNewTaskButtonClick() {
     this.setState({
@@ -98,8 +82,11 @@ class ToDo extends React.Component {
       status: "Pending"
     });
 
-    this.setState({
-      taskList: newTaskList
+    this.setState((state) => ({
+      taskList: newTaskList,
+      showModal: "hide"
+    }), () => {
+      this.resetModalData.current.resetTaskData(this.state.currentTask);
     });
   }
   
@@ -167,14 +154,16 @@ class ToDo extends React.Component {
     })
 
     return(
-      <div className="task">
+      <div className="todo">
         <NewTaskModal ref={this.resetModalData} task={currentTask} showModal={this.state.showModal} handleSave={this.handleSaveTask} handleCancel={this.handleCancelModal}>
-          {/* <TaskItem task={this.state.currentTask}/> */}
-        </NewTaskModal>
-        <input type="text" className="txt-box" placeholder="Search" value={this.searchField} onChange={this.filterTasks}></input>
+         </NewTaskModal>
+        <span className='todo-top'>
+          <input type="text" className="txt-box" placeholder="Filter" value={this.searchField} onChange={this.filterTasks}></input>
 
-        <button onClick={this.handleNewTaskButtonClick}>New task</button>
-        <ul>
+          <button onClick={this.handleNewTaskButtonClick}>New task</button>
+        </span>
+        
+        <ul className="task-list">
           {fileteredTasks.map((task) => <Task 
                                               finishTask={() => this.handleFinishTask(task.id)} 
                                               editTask={() => this.handleEditTask(task.id)} 
